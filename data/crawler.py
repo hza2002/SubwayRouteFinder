@@ -12,7 +12,8 @@ def LocTransform(loc):
     old_loc = loc  # 经度,纬度
     key = "GgUZ8eHC7RrrOQZkWr5R575tfEFfwo7c"  # 百度Api
     url = "https://api.map.baidu.com/geoconv/v1/?coords={}&from=3&to=5&ak={}".format(
-        old_loc, key)  # 高德to百度
+        old_loc, key
+    )  # 高德to百度
     re = requests.get(url)
     js = re.json()
     lng = js["result"][0]["x"]
@@ -46,21 +47,17 @@ def gaode_subway():
         city_name_py = soup_a["cityname"]
         city_id = soup_a["id"]
         city_name_ch = soup_a.get_text()
-        name_dict.append({
-            "name_py": city_name_py,
-            "id": city_id,
-            "name_ch": city_name_ch
-        })
+        name_dict.append(
+            {"name_py": city_name_py, "id": city_id, "name_ch": city_name_ch}
+        )
     # 获取未显示出来的城市列表
     for soup_a in soup.find("div", class_="more-city-list").find_all("a"):
         city_name_py = soup_a["cityname"]
         city_id = soup_a["id"]
         city_name_ch = soup_a.get_text()
-        name_dict.append({
-            "name_py": city_name_py,
-            "id": city_id,
-            "name_ch": city_name_ch
-        })
+        name_dict.append(
+            {"name_py": city_name_py, "id": city_id, "name_ch": city_name_ch}
+        )
     df_name = pd.DataFrame(name_dict)
 
     # 通过id筛选出需要的城市，5000为重庆id，注意id为字符串
@@ -74,7 +71,8 @@ def gaode_subway():
         now = datetime.now()
         timeStamp = int(now.timestamp() * 1000)
         url = "http://map.amap.com/service/subway?_{}&srhdata={}_drw_{}.json".format(
-            timeStamp, tup[0], tup[1])
+            timeStamp, tup[0], tup[1]
+        )
         url_list.append(url)
 
     # 抓取各个城市地铁数据
@@ -98,20 +96,28 @@ def gaode_subway():
                     sl = i2["sl"]  # 经纬度
                     if i2["su"] == "1":
                         station_loc_baidu = LocTransform(sl)
-                        subway_LineStation_list.append([
-                            city, kn, n, name, station_loc_baidu, line_id,
-                            station_sid
-                        ])
+                        subway_LineStation_list.append(
+                            [city, kn, n, name, station_loc_baidu, line_id, station_sid]
+                        )
                         # 城市 线路名称 序号 站点名称 百度经纬坐标 路线id 站点id
-                        print(city, kn, n, name, station_loc_baidu, line_id,
-                              station_sid)
+                        print(
+                            city, kn, n, name, station_loc_baidu, line_id, station_sid
+                        )
 
     # 最终的数据就是subway_LineStation_list
     # 格式化输出到文件：
     filename = "subway.txt"
-    with open(filename, 'w') as file:
+    with open(filename, "w") as file:
         for line in subway_LineStation_list:
-            city, line_name, sequence, station_name, coordinates, line_id, station_id = line
+            (
+                city,
+                line_name,
+                sequence,
+                station_name,
+                coordinates,
+                line_id,
+                station_id,
+            ) = line
             file.write(f"{sequence} {station_name} {coordinates}\n")
 
 
