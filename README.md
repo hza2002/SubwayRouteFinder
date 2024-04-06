@@ -1,8 +1,7 @@
-<div style="display: flex; justify-content: center;">
-  <img src="assets/icon-readme.png" style="max-width: 200px; height: auto;">
+<div align="center">
+  <img src="assets/icon-readme.png" alt="Icon" width="200">
+  <h1 style="text-align: center;">Subway Route Finder</h1>
 </div>
-<br>
-<h1 style="text-align: center;">Subway Route Finder</h1>
 
 This system, developed using the **Qt** framework, offers a convenient and fast **Chongqing** subway route query function. It empowers users to effortlessly access subway lines, station information, and obtain optimal route planning.
 
